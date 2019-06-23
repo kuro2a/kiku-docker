@@ -5,6 +5,7 @@ ENV GROUP_ID 3000
 ENV USER_ID 3000
 ENV GITHUB_USER your_github_account
 ENV GITHUB_TOKEN your_github_accounts_token
+ENV GIT_BRANCH your_developing_git_branch
 
 # Change root user.
 USER root
@@ -32,7 +33,8 @@ RUN addgroup -g ${GROUP_ID} app && \
 USER app
 
 # Clone from GitHub.
-RUN cd /home/app && git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/kuro2a/kiku
+RUN cd /home/app && git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/kuro2a/kiku && \
+    cd /home/app/kiku && git checkout -b ${GIT_BRANCH} origin/${GIT_BRANCH}
 
 # Change app user.
 WORKDIR /home/app/kiku
